@@ -6,8 +6,8 @@ class DB():
 
     def load_models(self):
         # TODO: load the models from pickle files
-        event_model = None
-        user_model = None
+        event_model = pickle.load(open('models/baseline_event_model.pkl', 'rb'))
+        user_model = None#pickle.load(open('models/.pkl', 'rb'))
         return event_model, user_model
 
     def save(self):
