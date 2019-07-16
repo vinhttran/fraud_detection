@@ -63,7 +63,7 @@ rf = RandomForestClassifier(n_estimators=’warn’,
                             warm_start=False,
                             class_weight=None)
 rf.fit(X_train, y_train)
-importances = forest.feature_importances_
+importances = rf.feature_importances_
 RF_pred = rf.predict(X_test)
 RF_precision = average_precision_score(y_test, RF_pred)
 
