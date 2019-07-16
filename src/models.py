@@ -1,24 +1,26 @@
 import numpy as np
 import pandas as pd
 
-from pyspark.sql import SparkSession
+from sklearn.model_selection import train_test_split, KFold, ShuffleSplit, cross_val_score, GridSearchCV
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.svm import SVC
+from sklearn.linear_model import LogisticRegression
+from sklearn import metrics
+from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, r2_score, mean_squared_error, classification_report, make_scorer
+from sklearn.metrics import average_precision_score
+
+import tensorflow as tf
+from tensorflow.keras.metrics import Precision, Recall
+
+from pyspark.sql import SparkSession, Row
 from pyspark.ml.recommendation import ALS
 from pyspark.ml.evaluation import RegressionEvaluator
-from pyspark.sql import Row
 
 from surprise import Reader
 from surprise import Dataset
 from surprise import SVD
 from surprise.model_selection import train_test_split
 
-from sklearn.model_selection import train_test_split, KFold, ShuffleSplit, cross_val_score, GridSearchCV
-from sklearn.ensemble import RandomForestClassifier, svm
-from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, r2_score, mean_squared_error, classification_report, make_scorer
-from sklearn import metrics
-from sklearn.metrics import average_precision_score
-
-import tensorflow as tf
 
 # Train-test split
 X_train, X_test, y_train, y_test = train_test_split(X,y,test_size=0.2,
@@ -41,7 +43,7 @@ logistic = LogisticRegression(penalty=’l2’,
                             warm_start=False, n_jobs=None, l1_ratio=None)
 logistic.fit(X_train, y_train)
 logistic_pred = rf.predict(X_train)
-logistic_precision = average_precision_score(y_test, logistic_pred)
+print("precision:", average_precision_score(y_test, logistic_pred), "\n F1:", f1_score(y_test, logistic_pred))
 
 
 '''Random Forest Decision Tree'''
@@ -65,7 +67,7 @@ rf = RandomForestClassifier(n_estimators=’warn’,
 rf.fit(X_train, y_train)
 importances = rf.feature_importances_
 RF_pred = rf.predict(X_test)
-RF_precision = average_precision_score(y_test, RF_pred)
+print("precision:", average_precision_score(y_test, RF_pred), "\n F1:", f1_score(y_test, RF_pred))
 
 
 '''SVM'''
@@ -85,7 +87,7 @@ svm = svm.SVC((C=1.0,
             random_state=None)
 svm.fit(X_train, y_train)
 SVM_pred =  svm.predict(X_test)
-SVM_precision = average_precision_score(y_test, RF_pred)
+print("precision:", average_precision_score(y_test, SVM_pred), "\n F1:", f1_score(y_test, SVM_pred))
 
 
 '''KNN'''
@@ -101,6 +103,7 @@ knn.fit(X_train, y_train)
 knn_pred = knn.predict(X_test)
 #output precision score
 knn_precision = average_precision_score(y_test, knn_pred)
+print("precision:", average_precision_score(y_test, knn_pred), "\n F1:", f1_score(y_test, knn_pred))
 
 
 '''Neural Net'''
@@ -113,11 +116,9 @@ model_activation.add(keras.layers.Dense(units=1))
 model_activation.add(keras.layers.Dropout(rate=0.5))
 model_activation.compile(loss='mean_squared_error',
              optimizer='sgd',
-             metrics=['accuracy'])
+             metrics=['Precision()'])
 model_activation.fit(x_train, y_train,
                      epochs=10, batch_size=1, verbose = 0)
-#not sure if this works - figure out how to get precision
-loss, accuracy, f1_score, precision, recall = model.evaluate(Xtest, ytest, verbose=0)
 
 
 # RECOMMENDERS
