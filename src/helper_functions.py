@@ -57,10 +57,20 @@ def create_target():
                                    'spammer': 0})
     return df
 
-from datetime import datetime    
+from datetime import datetime
 def convert_date():
     df["approx_payout_date"] = pd.to_datetime(df["approx_payout_date"], unit = 's')
     df["event_created"] = pd.to_datetime(df["event_created"], unit = 's')
     df["event_end"] = pd.to_datetime(df["event_end"], unit = 's')
     df["event_start"] = pd.to_datetime(df["event_start"], unit = 's')
+    return df
+
+def low_cor_cols(r_score):
+    df[num_columns].corr()[['fraud']].values
+    corr_df = df[num_columns].corr()[['fraud']].sort_values('fraud')
+    low_corr_mask = corr_df.sort_values('fraud').abs().lt(r_score).values.reshape(1,-1)[0]
+    return corr_df[low_corr_mask]
+
+def drop_cols():
+    df.drop(['acct_type'],axis=1)
     return df
