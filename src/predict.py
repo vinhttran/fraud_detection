@@ -1,6 +1,6 @@
 from db import DB
 
-class Models():
+class Logic():
   def __init__(self):
     self.db = DB()
     self.event_model, self.user_model = self.db.load_models()
