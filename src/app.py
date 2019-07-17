@@ -1,30 +1,33 @@
 from flask import Flask, request
+from predict import Logic
+import EventAPIClient
+
 app = Flask(__name__)
 
 @app.route('/', methods=['GET'])
 def home():
-    return ''' <p> nothing here, friend, but a link to 
+    return ''' <h2> Triage Dashboard </h2>
                    <a href="/hello">hello</a> and an 
-                   <a href="/form_example">example form</a> </p> '''
+                   <a href="/save">Save user data before stopping the app</a> </p> '''
 
 @app.route('/hello', methods=['GET'])
 def hello_world():
     return ''' <h1> Hello, World!</h1> '''
 
-@app.route('/form_example', methods=['GET'])
-def form_display():
-    return ''' <form action="/string_reverse" method="POST">
-                <input type="text" name="some_string" />
-                <input type="submit" />
-               </form>
-             '''
+@app.route('/save', methods=['GET'])
+def save():
+    logic.save()
 
-@app.route('/string_reverse', methods=['POST'])
-def reverse_string():
-    text = str(request.form['some_string'])
-    reversed_string = text[-1::-1]
-    return ''' output: {}  '''.format(reversed_string)
+# @app.route('/score', methods=['POST'])
+# def score():
+#     # TODO figure out the data we get
+#     text = str(request.form['some_string'])
+#     json_data = json.load(text)
+#     logic.predict(json_data) # no idea
 
 
 if __name__ == '__main__':
+    # TODO: unpickle all models and save them to models dictionary
+    logic = Logic()
+    event_api = EventAPIClient(logic=logic)
     app.run(host='0.0.0.0', port=8080, debug=True)
