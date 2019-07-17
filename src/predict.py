@@ -23,5 +23,6 @@ class Logic():
         X["predict_proba"] = self.event_model.predict_proba(X)
 
         # TODO: add the data + score as 1 row in the event_df
-        self.event_df.append(x) # don't add if a duplicate line
+        self.event_df.append(x)
+        self.event_df.drop_duplicates(inplace=True) # remove duplicate lines
         self.db.save()
