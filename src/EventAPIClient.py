@@ -46,7 +46,7 @@ class EventAPIClient:
         while True:
             print("Requesting data...")
             data = self.get_data()
-            print(data)
+            # print(data)
             # print(type(data))
             if data:
                 # print("Received data, sending to predict")

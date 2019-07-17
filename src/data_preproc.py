@@ -37,19 +37,19 @@ def clean_rest(df):
     #     df['listed_n'] = df['listed'] == 'n'
     #     df['listed_y'] = df['listed'] == 'y'
     # For test
-    if 'gts' not in df.keys():
-        df['gts'] = 431
+    # if 'gts' not in df.keys():
+    #     df['gts'] = 431
 
-    if 'num_payouts' not in df.keys():
-        df['num_payouts'] = 0
+    # if 'num_payouts' not in df.keys():
+    #     df['num_payouts'] = 0
 
-    if 'num_order' not in df.keys():
-        df['num_order'] = 0
+    # if 'num_order' not in df.keys():
+    #     df['num_order'] = 0
 
     df = df[[
         'body_length', 'channels', 'country', 'delivery_method',
-        'email_domain', 'fb_published', 'gts', 'has_analytics', 'has_header',
-        'has_logo', 'name_length', 'num_order', 'num_payouts', 'org_desc',
+        'email_domain', 'fb_published', 'has_analytics', 'has_header',
+        'has_logo', 'name_length' , 'org_desc',
         'org_facebook', 'org_name', 'org_twitter', 'payee_name',
         'previous_payouts', 'show_map', 'user_age', 'user_type',
         'venue_address', 'venue_country','quantity_total',

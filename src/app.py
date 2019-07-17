@@ -32,7 +32,7 @@ if __name__ == '__main__':
       event_api = EventAPIClient(logic=logic, first_sequence_number=0)
     else:
       event_api = API2(logic=logic)
-    event_api.collect()
+    event_api.collect(interval=10)
     # t = threading.Thread(target=event_api.collect)
     # t.start()
     # app.run(host='0.0.0.0', port=8080, debug=True)

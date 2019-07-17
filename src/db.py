@@ -13,7 +13,7 @@ class DB():
     def load_models(self):
         # TODO: load the models from pickle files
         self.event_model = pickle.load(
-            open('../models/RF_event_model.pkl', 'rb'))
+            open('../models/RF_event_model_final.pkl', 'rb'))
         self.user_model = None#pickle.load(open('models/.pkl', 'rb'))
         # self.event_df = pd.DataFrame({'A': None}) # TODO: replace with better template
         if os.path.isfile(event_pickle):
