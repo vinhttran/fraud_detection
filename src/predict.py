@@ -31,6 +31,10 @@ class Logic():
       risk score from 0: safe to 1: sure fraud
     '''
         # TODO: vectorize the event per event_model
+
+        # events['description'] = 0
+        # events['previous_payouts'] = len(events['previous_payouts'])
+
         df = pd.DataFrame(events)
         # print(df.info())
 
@@ -45,8 +49,8 @@ class Logic():
         # 'venue_address', 'venue_country', 'venue_latitude', 'venue_longitude',
         # 'venue_name', 'venue_state']]
 
-        # X=pre_process_data(df)
-        X = df
+        X=pre_process_data(df)
+        # X = df
 
         # predict
         try:

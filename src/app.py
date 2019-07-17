@@ -1,5 +1,6 @@
 from predict import Logic
 from EventAPIClient import EventAPIClient
+from API2 import API2
 import threading
 from flask import Flask, request, render_template, session, redirect
 
@@ -27,7 +28,10 @@ def hello_world():
 if __name__ == '__main__':
     # TODO: unpickle all models and save them to models dictionary
     logic = Logic()
-    event_api = EventAPIClient(logic=logic, first_sequence_number=0)
+    if True:
+      event_api = EventAPIClient(logic=logic, first_sequence_number=0)
+    else:
+      event_api = API2(logic=logic)
     event_api.collect()
     # t = threading.Thread(target=event_api.collect)
     # t.start()
