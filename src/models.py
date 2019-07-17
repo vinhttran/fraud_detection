@@ -46,8 +46,7 @@ logistic = LogisticRegression(penalty=’l2’,
                             warm_start=False, n_jobs=None, l1_ratio=None)
 logistic.fit(X_train, y_train)
 logistic_pred = logistic.predict(X_test)
-print("precision:", average_precision_score(y_test, logistic_pred), "\n F1:", f1_score(y_test, logistic_pred))
-
+print(classification_report(y_test, logistic_pred))
 
 '''Random Forest Decision Tree'''
 rf = RandomForestClassifier(n_estimators=’warn’,
@@ -70,8 +69,7 @@ rf = RandomForestClassifier(n_estimators=’warn’,
 rf.fit(X_train, y_train)
 importances = rf.feature_importances_
 RF_pred = rf.predict(X_test)
-print("precision:", average_precision_score(y_test, RF_pred), "\n F1:", f1_score(y_test, RF_pred))
-
+print(classification_report(y_test, RF_pred))
 
 '''SVM'''
 svm = svm.SVC(C=1.0,
@@ -90,8 +88,7 @@ svm = svm.SVC(C=1.0,
             random_state=None)
 svm.fit(X_train, y_train)
 SVM_pred =  svm.predict(X_test)
-print("precision:", average_precision_score(y_test, SVM_pred), "\n F1:", f1_score(y_test, SVM_pred))
-
+print(classification_report(y_test, svm_pred))
 
 '''KNN'''
 knn = KNeighborsClassifier(n_neighbors=5,
@@ -106,8 +103,7 @@ knn.fit(X_train, y_train)
 knn_pred = knn.predict(X_test)
 #output precision score
 knn_precision = average_precision_score(y_test, knn_pred)
-print("precision:", average_precision_score(y_test, knn_pred), "\n F1:", f1_score(y_test, knn_pred))
-
+print(classification_report(y_test, knn_pred))
 
 '''Neural Net'''
 model_activation = keras.models.Sequential()
