@@ -19,10 +19,10 @@ class EventAPIClient:
         self.api_key = api_key
         self.logic = logic
 
-    def save_to_database(self, row):
-        """Save a data row to the database."""
-        # print("Received data:\n")
-        dico2 = literal_eval(repr(row))
+    # def save_to_database(self, row):
+    #     """Save a data row to the database."""
+    #     # print("Received data:\n")
+    #     dico2 = literal_eval(repr(row))
         # print(dico2.keys())
 
         # OLD
@@ -33,12 +33,12 @@ class EventAPIClient:
 
     def get_data(self):
         """Fetch data from the API."""
+        print('Getting data for sequence', self.next_sequence_number)
         payload = {'api_key': self.api_key,
                    'sequence_number': self.next_sequence_number}
         response = requests.post(self.api_url, json=payload)
         data = response.json()
         self.next_sequence_number = data['_next_sequence_number']
-
         return data['data']
 
     def collect(self, interval=30):
@@ -46,7 +46,7 @@ class EventAPIClient:
         while True:
             print("Requesting data...")
             data = self.get_data()
-            # print(data)
+            print(data)
             # print(type(data))
             if data:
                 # print("Received data, sending to predict")

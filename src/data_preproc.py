@@ -3,23 +3,23 @@ import pandas as pd
 
 def ticket_types(df):
     new_df=pd.DataFrame(df.ticket_types[0])
-    result_df=new_df[['quantity_sold', 'quantity_total', 'event_id']].groupby('event_id').sum()
+    result_df=new_df[[ 'quantity_total', 'event_id']].groupby('event_id').sum()
     result_df=result_df.join(new_df[['availability', 'cost', 'event_id']].groupby('event_id').mean())
 
     for i in range(1,df.shape[0]):
         try:
             df_element=pd.DataFrame(df.ticket_types[i])
-            grp_ele_df=df_element[['quantity_sold', 'quantity_total', 'event_id']].groupby('event_id').sum()
+            grp_ele_df=df_element[[ 'quantity_total', 'event_id']].groupby('event_id').sum()
             grp_ele_df=grp_ele_df.join(df_element[['availability', 'cost', 'event_id']].groupby('event_id').mean())
             result_df=pd.concat([result_df, grp_ele_df])
 
         except:
             continue
     result_df.reset_index(inplace=True)
-    result_df.columns=['object_id', 'quantity_sold', 'quantity_total', 'availability', 'cost']
+    result_df.columns=['object_id', 'quantity_total', 'availability', 'cost']
     final_df=df.set_index('object_id').join(result_df.set_index('object_id'))
     final_df.reset_index(inplace=True)
-    final_df[['quantity_sold', 'quantity_total','availability', 'cost']]=final_df[['quantity_sold', 'quantity_total','availability', 'cost']].fillna(0)
+    final_df[['quantity_total','availability', 'cost']]=final_df[['quantity_total','availability', 'cost']].fillna(0)
     return final_df
 
 def prev_pay_count(df):
@@ -29,17 +29,27 @@ def prev_pay_count(df):
 def clean_rest(df):
     df.venue_country=df.venue_country.isna()
     df.name_length=df.name_length==0
-    df=pd.get_dummies(df,columns = ['payout_type','listed'])
-    df=df[['body_length', 'channels', 'country', 'delivery_method', 'email_domain', 
-       'fb_published', 'gts', 'has_analytics', 'has_header', 'has_logo',
-        'name_length', 'num_order', 'num_payouts', 'org_desc','org_facebook',
-       'org_name', 'org_twitter', 'payee_name','previous_payouts', 'show_map',
-        'user_age', 'user_type',
-       'venue_address', 'venue_country','quantity_sold', 'quantity_total',
-       'availability', 'cost', 'fraud', 'payout_type_', 'payout_type_ACH',
-       'payout_type_CHECK', 'listed_n', 'listed_y']]
+    # df=pd.get_dummies(df,columns = ['payout_type','listed'])
+    df['payout_type_'] = df['payout_type'] == ''
+    df['payout_type_ACH'] = df['payout_type'] == 'ACH'
+    df['payout_type_CHECK'] = df['payout_type'] == 'CHECK'
+
+    df['listed_n'] = df['listed'] == 'n'
+    df['listed_y'] = df['listed'] == 'y'
+
+    df = df = df[[
+        'body_length', 'channels', 'country', 'delivery_method',
+        'email_domain', 'fb_published', 'gts', 'has_analytics', 'has_header',
+        'has_logo', 'name_length', 'num_order', 'num_payouts', 'org_desc',
+        'org_facebook', 'org_name', 'org_twitter', 'payee_name',
+        'previous_payouts', 'show_map', 'user_age', 'user_type',
+        'venue_address', 'venue_country', 'quantity_sold', 'quantity_total',
+        'availability', 'cost', 'fraud', 'payout_type_', 'payout_type_ACH',
+        'payout_type_CHECK', 'listed_n', 'listed_y']]
+
+
     df=df.fillna(0)*1
-    
+
     return df
 
 def isexist(df, col):
@@ -108,7 +118,7 @@ def create_target(df):
 
 def pre_process_data(df):
     df=ticket_types(df)
-    df=create_target(df)
+    # df=create_target(df)
     df=prev_pay_count(df)
     df=email_classify(df)
     df=country_classify(df)

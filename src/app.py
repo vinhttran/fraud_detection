@@ -27,8 +27,8 @@ def hello_world():
 if __name__ == '__main__':
     # TODO: unpickle all models and save them to models dictionary
     logic = Logic()
-    event_api = EventAPIClient(logic=logic)
-
-    t = threading.Thread(target=event_api.collect)
-    t.start()
-    app.run(host='0.0.0.0', port=8080, debug=True)
+    event_api = EventAPIClient(logic=logic, first_sequence_number=0)
+    event_api.collect()
+    # t = threading.Thread(target=event_api.collect)
+    # t.start()
+    # app.run(host='0.0.0.0', port=8080, debug=True)
