@@ -74,3 +74,9 @@ def low_cor_cols(r_score):
 def drop_cols():
     df.drop(['acct_type'],axis=1)
     return df
+
+def description_cols():
+    import clean_desc
+    df['description'] = df['description'].apply(strip_tags)
+    clean_desc(df)
+    return df
