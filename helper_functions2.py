@@ -84,7 +84,7 @@ def drop_cols():
     df2 = df1.drop(['acct_type','sale_duration','fraud','event_start','approx_payout_date',
                     'event_published','event_end','venue_state',
                     'ticket_types','venue_name','venue_state','venue_country','venue_address',
-                    'org_desc','org_name','previous_payouts','email_domain','name','currency','country','event_created'],axis=1)
+                    'org_desc','org_name','previous_payouts','email_domain','payee_name','name','currency','country','event_created'],axis=1)
     return df2
 
 #check
@@ -134,6 +134,9 @@ def has_venue_data():
     df['has_org_name'] = (df['org_name'].fillna('None').replace('','None') == 'None').astype(int)
     df['has_venue_name'] = (df['venue_name'].fillna('None').replace('','None') == 'None').astype(int)
     df['has_venue_name'] = (df['venue_name'].fillna('None').replace('','None') == 'None').astype(int)
+    df['has_payee_name'] = (df['payee_name'].fillna('None').replace('','None') == 'None').astype(int)
+    df['org_facebook'] = df['org_facebook'].fillna(df['org_facebook'].mode()[0])
+    df['org_twitter'] = df['org_twitter'].fillna(df['org_twitter'].mode()[0])
     return df
 
 def payout_type():
