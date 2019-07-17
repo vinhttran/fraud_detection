@@ -36,7 +36,8 @@ class Logic():
 
         # predict
         try:
-            df["predict_proba"] = self.event_model.predict_proba(X)
+            predict_proba = self.event_model.predict_proba(X)
+            df["predict_proba"] = predict_proba[:,1:2]
         except Exception as e:
             df["predict_proba"] = str(e)
 
