@@ -11,19 +11,22 @@ class EventAPIClient:
     def __init__(self, first_sequence_number=0,
                  api_url = 'https://hxobin8em5.execute-api.us-west-2.amazonaws.com/api/',
                  api_key = 'vYm9mTUuspeyAWH1v-acfoTlck-tCxwTw9YfCynC',
-                 db = None):
+                 db = None,
+                 logic=None):
         """Initialize the API client."""
         self.next_sequence_number = first_sequence_number
         self.api_url = api_url
         self.api_key = api_key
+        self.logic = logic
 
     def save_to_database(self, row):
         """Save a data row to the database."""
-        print("Received data:\n")
+        # print("Received data:\n")
         dico2 = literal_eval(repr(row))
+        # print(dico2.keys())
 
+        # OLD
         # print(dico.keys())
-        print(dico2.keys())
         # print(data)
         # little_df = pd.DataFrame(data)
         # print(little_df.info())
@@ -42,6 +45,8 @@ class EventAPIClient:
         while True:
             print("Requesting data...")
             data = self.get_data()
+            print(data)
+            print(type(data))
             if data:
                 print("Saving...")
                 for row in data:
