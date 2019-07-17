@@ -30,17 +30,22 @@ def clean_rest(df):
     df.venue_country=df.venue_country.isna()
     df.name_length=df.name_length==0
     # df=pd.get_dummies(df,columns = ['payout_type','listed'])
-#     df['payout_type_'] = df['payout_type'] == ''
-#     df['payout_type_ACH'] = df['payout_type'] == 'ACH'
-#     df['payout_type_CHECK'] = df['payout_type'] == 'CHECK'
+    #     df['payout_type_'] = df['payout_type'] == ''
+    #     df['payout_type_ACH'] = df['payout_type'] == 'ACH'
+    #     df['payout_type_CHECK'] = df['payout_type'] == 'CHECK'
 
-#     df['listed_n'] = df['listed'] == 'n'
-#     df['listed_y'] = df['listed'] == 'y'
+    #     df['listed_n'] = df['listed'] == 'n'
+    #     df['listed_y'] = df['listed'] == 'y'
     # For test
     if 'gts' not in df.keys():
-      df['gts'] = 431
+        df['gts'] = 431
 
-    
+    if 'num_payouts' not in df.keys():
+        df['num_payouts'] = 0
+
+    if 'num_order' not in df.keys():
+        df['num_order'] = 0
+
     df = df[[
         'body_length', 'channels', 'country', 'delivery_method',
         'email_domain', 'fb_published', 'gts', 'has_analytics', 'has_header',
