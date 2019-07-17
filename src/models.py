@@ -8,9 +8,12 @@ from sklearn.linear_model import LogisticRegression
 from sklearn import metrics
 from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, r2_score, mean_squared_error, classification_report, make_scorer
 from sklearn.metrics import average_precision_score
+from sklearn.neighbors import KNeighborsClassifier, KNeighborsRegressor
 
 import tensorflow as tf
 from tensorflow.keras.metrics import Precision, Recall
+from tensorflow import keras
+
 
 from pyspark.sql import SparkSession, Row
 from pyspark.ml.recommendation import ALS
@@ -42,7 +45,7 @@ logistic = LogisticRegression(penalty=’l2’,
                             verbose=0,
                             warm_start=False, n_jobs=None, l1_ratio=None)
 logistic.fit(X_train, y_train)
-logistic_pred = rf.predict(X_train)
+logistic_pred = logistic.predict(X_test)
 print("precision:", average_precision_score(y_test, logistic_pred), "\n F1:", f1_score(y_test, logistic_pred))
 
 
@@ -71,7 +74,7 @@ print("precision:", average_precision_score(y_test, RF_pred), "\n F1:", f1_score
 
 
 '''SVM'''
-svm = svm.SVC((C=1.0,
+svm = svm.SVC(C=1.0,
             kernel=’rbf’,
             degree=3,
             gamma=’auto_deprecated’,
@@ -98,7 +101,7 @@ knn = KNeighborsClassifier(n_neighbors=5,
                             p=2,
                             metric=’minkowski’,
                             metric_params=None,
-                            n_jobs=None, **kwargs)
+                            n_jobs=None)
 knn.fit(X_train, y_train)
 knn_pred = knn.predict(X_test)
 #output precision score
@@ -115,9 +118,9 @@ model_activation.add(keras.layers.Dense(units=n_hidden,
 model_activation.add(keras.layers.Dense(units=1))
 model_activation.add(keras.layers.Dropout(rate=0.5))
 model_activation.compile(loss='mean_squared_error',
-             optimizer='sgd',
-             metrics=['Precision()'])
-model_activation.fit(x_train, y_train,
+                        optimizer='sgd',
+                        metrics=['Precision'])
+model_activation.fit(X_train, y_train,
                      epochs=10, batch_size=1, verbose = 0)
 
 
