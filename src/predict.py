@@ -54,11 +54,10 @@ class Logic():
 
         new_len = self.event_df.shape[0]
         if prev_len == new_len :
-          print('New data is duplicate of previous, not adding')
+            print('New data is duplicate of previous, not adding')
         else:
-          delta = new_len - prev_len
-          print('Adding {} rows'.format(delta))
-          dups = adding - delta 
-          if dups > 0:
-            print(dups, ' rows were duplicates, not added')
-
+            delta = new_len - prev_len
+            print('Adding {} rows'.format(delta))
+            dups = adding - delta
+            if dups > 0:
+                print(dups, ' rows were duplicates, not added')
