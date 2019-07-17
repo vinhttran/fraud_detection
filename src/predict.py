@@ -41,7 +41,7 @@ class Logic():
         except Exception as e:
             df["predict_proba"] = str(e)
 
-        if self.event_df != None:
+        if isinstance(self.event_df, pd.DataFrame):
             self.event_df.append(df)
         else:
             self.event_df = df
