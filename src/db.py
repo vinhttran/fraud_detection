@@ -2,7 +2,7 @@ import pandas as pd
 import pickle
 import os
 
-event_file = '../data/streaming_events.xlsx'
+event_file = '../data/streaming_events.csv'
 event_pickle = '../db/new_events.pkl'
 sheet_name = 'Streaming Events'
 
@@ -32,7 +32,8 @@ class DB():
     def save(self, df):
         print('Writing {} new events to Excel and pickle!'.format(len(df.index)))
 
-        df.to_excel(event_file, sheet_name=sheet_name)
+        df.to_csv(event_file)
+
         pickle_out = open(event_pickle,'wb')
         pickle.dump(df, pickle_out)
         pickle_out.close()

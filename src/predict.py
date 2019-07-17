@@ -45,8 +45,8 @@ class Logic():
         # 'venue_address', 'venue_country', 'venue_latitude', 'venue_longitude',
         # 'venue_name', 'venue_state']]
 
-        X=pre_process_data(df)
-
+        # X=pre_process_data(df)
+        X = df
 
         # predict
         try:
