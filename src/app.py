@@ -1,6 +1,7 @@
 from flask import Flask, request
 from predict import Logic
 from EventAPIClient import EventAPIClient
+import threading
 
 app = Flask(__name__)
 
@@ -18,5 +19,7 @@ if __name__ == '__main__':
     # TODO: unpickle all models and save them to models dictionary
     logic = Logic()
     event_api = EventAPIClient(logic=logic)
-    event_api.collect()
+
+    t = threading.Thread(target=event_api.collect)
+    t.start()
     app.run(host='0.0.0.0', port=8080, debug=True)
