@@ -1,6 +1,8 @@
 from db import DB
 import pandas as pd
+import numpy as np
 import EventAPIClient
+from data_preproc import pre_process_data, ticket_types, create_target, prev_pay_count, email_classify, country_classify, isexist, clean_rest
 
 columns_checked = [
     'body_length', 'channels', 'country', 'currency', 'delivery_method',
@@ -32,7 +34,19 @@ class Logic():
         df = pd.DataFrame(events)
         # print(df.info())
 
-        X = df[["user_type", "user_age", "channels", "name_length"]]
+        X = df[['acct_type', 'approx_payout_date', 'body_length', 'channels', 'country',
+       'currency', 'delivery_method', 'email_domain', 'event_created',
+       'event_end', 'event_published', 'event_start', 'fb_published', 'gts',
+       'has_analytics', 'has_header', 'has_logo', 'listed', 'name',
+       'name_length', 'num_order', 'num_payouts', 'object_id', 'org_desc',
+       'org_facebook', 'org_name', 'org_twitter', 'payee_name', 'payout_type',
+       'previous_payouts', 'sale_duration', 'sale_duration2', 'show_map',
+       'ticket_types', 'user_age', 'user_created', 'user_type',
+       'venue_address', 'venue_country', 'venue_latitude', 'venue_longitude',
+       'venue_name', 'venue_state']]
+
+        X=pre_process_data(X)
+
 
         # predict
         try:
