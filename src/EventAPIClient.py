@@ -38,6 +38,7 @@ class EventAPIClient:
         response = requests.post(self.api_url, json=payload)
         data = response.json()
         self.next_sequence_number = data['_next_sequence_number']
+
         return data['data']
 
     def collect(self, interval=30):
@@ -45,12 +46,14 @@ class EventAPIClient:
         while True:
             print("Requesting data...")
             data = self.get_data()
-            print(data)
-            print(type(data))
+            # print(data)
+            # print(type(data))
             if data:
-                print("Saving...")
-                for row in data:
-                    self.save_to_database(row)
+                # print("Received data, sending to predict")
+                self.logic.predict(data)
+
+                # for row in data:
+                #     self.save_to_database(row)
             else:
                 print("No new data received.")
             print(f"Waiting {interval} seconds...")
