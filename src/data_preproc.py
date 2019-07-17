@@ -30,12 +30,12 @@ def clean_rest(df):
     df.venue_country=df.venue_country.isna()
     df.name_length=df.name_length==0
     # df=pd.get_dummies(df,columns = ['payout_type','listed'])
-    df['payout_type_'] = df['payout_type'] == ''
-    df['payout_type_ACH'] = df['payout_type'] == 'ACH'
-    df['payout_type_CHECK'] = df['payout_type'] == 'CHECK'
+#     df['payout_type_'] = df['payout_type'] == ''
+#     df['payout_type_ACH'] = df['payout_type'] == 'ACH'
+#     df['payout_type_CHECK'] = df['payout_type'] == 'CHECK'
 
-    df['listed_n'] = df['listed'] == 'n'
-    df['listed_y'] = df['listed'] == 'y'
+#     df['listed_n'] = df['listed'] == 'n'
+#     df['listed_y'] = df['listed'] == 'y'
 
     df = df = df[[
         'body_length', 'channels', 'country', 'delivery_method',
@@ -43,9 +43,8 @@ def clean_rest(df):
         'has_logo', 'name_length', 'num_order', 'num_payouts', 'org_desc',
         'org_facebook', 'org_name', 'org_twitter', 'payee_name',
         'previous_payouts', 'show_map', 'user_age', 'user_type',
-        'venue_address', 'venue_country', 'quantity_sold', 'quantity_total',
-        'availability', 'cost', 'fraud', 'payout_type_', 'payout_type_ACH',
-        'payout_type_CHECK', 'listed_n', 'listed_y']]
+        'venue_address', 'venue_country','quantity_total',
+        'availability', 'cost']]
 
 
     df=df.fillna(0)*1
@@ -117,8 +116,7 @@ def create_target(df):
     return df
 
 def pre_process_data(df):
-    df=ticket_types(df)
-    # df=create_target(df)
+    df=ticket_types(raw_df)
     df=prev_pay_count(df)
     df=email_classify(df)
     df=country_classify(df)
