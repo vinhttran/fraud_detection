@@ -80,3 +80,24 @@ def description_cols():
     df['description'] = df['description'].apply(strip_tags)
     clean_desc(df)
     return df
+
+def ticket_types(df):
+    new_df=pd.DataFrame(df.ticket_types[0])
+    result_df=new_df[['quantity_sold', 'quantity_total', 'event_id']].groupby('event_id').sum()
+    result_df=result_df.join(new_df[['availability', 'cost', 'event_id']].groupby('event_id').mean())
+
+    for i in range(1,df.shape[0]):
+        try:
+            df_element=pd.DataFrame(df.ticket_types[i])
+            grp_ele_df=df_element[['quantity_sold', 'quantity_total', 'event_id']].groupby('event_id').sum()
+            grp_ele_df=grp_ele_df.join(df_element[['availability', 'cost', 'event_id']].groupby('event_id').mean())
+            result_df=pd.concat([result_df, grp_ele_df])
+
+        except:
+            continue
+    result_df.reset_index(inplace=True)
+    result_df.columns=['object_id', 'quantity_sold', 'quantity_total', 'availability', 'cost']
+    final_df=df.set_index('object_id').join(result_df.set_index('object_id'))
+    final_df.reset_index(inplace=True)
+    final_df[['quantity_sold', 'quantity_total','availability', 'cost']]=final_df[['quantity_sold', 'quantity_total','availability', 'cost']].fillna(0)
+    return final_df
