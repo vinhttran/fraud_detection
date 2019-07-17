@@ -36,8 +36,12 @@ def clean_rest(df):
 
 #     df['listed_n'] = df['listed'] == 'n'
 #     df['listed_y'] = df['listed'] == 'y'
+    # For test
+    if 'gts' not in df.keys():
+      df['gts'] = 431
 
-    df = df = df[[
+    
+    df = df[[
         'body_length', 'channels', 'country', 'delivery_method',
         'email_domain', 'fb_published', 'gts', 'has_analytics', 'has_header',
         'has_logo', 'name_length', 'num_order', 'num_payouts', 'org_desc',
@@ -116,7 +120,7 @@ def create_target(df):
     return df
 
 def pre_process_data(df):
-    df=ticket_types(raw_df)
+    df=ticket_types(df)
     df=prev_pay_count(df)
     df=email_classify(df)
     df=country_classify(df)
