@@ -3,7 +3,7 @@ import pickle
 
 class DB():
     def __init__(self):
-        pass 
+        pass
 
     def load_models(self):
         # TODO: load the models from pickle files
@@ -17,4 +17,4 @@ class DB():
 
     def save(self):
         # TODO: write dataframe to file
-        pass
+        pickle_out = open("data/event_df.pkl","wb")
