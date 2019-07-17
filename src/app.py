@@ -1,5 +1,6 @@
 from flask import Flask, request
 from predict import Logic
+import json
 
 app = Flask(__name__)
 
@@ -19,9 +20,10 @@ def save():
 
 @app.route('/score', methods=['POST'])
 def score():
-    logic.predict(request) # no idea
     # TODO figure out the data we get
     text = str(request.form['some_string'])
+    json_data = json.load(text)
+    logic.predict(json_data) # no idea
 
 
 if __name__ == '__main__':
