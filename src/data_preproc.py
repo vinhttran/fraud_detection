@@ -2,11 +2,13 @@ import numpy as np
 import pandas as pd
 
 def ticket_types(df):
+    # Extracting the data from ticket types column and adding back to orginal data frame
     new_df=pd.DataFrame(df.ticket_types[0])
     result_df=new_df[[ 'quantity_total', 'event_id']].groupby('event_id').sum()
     result_df=result_df.join(new_df[['availability', 'cost', 'event_id']].groupby('event_id').mean())
 
     for i in range(1,df.shape[0]):
+        # used try to avoid error incase there is NaN
         try:
             df_element=pd.DataFrame(df.ticket_types[i])
             grp_ele_df=df_element[[ 'quantity_total', 'event_id']].groupby('event_id').sum()
@@ -23,29 +25,14 @@ def ticket_types(df):
     return final_df
 
 def prev_pay_count(df):
+    #Return number of payouts made previously by counting length of payouts
     df.previous_payouts=df.previous_payouts.apply(lambda x: len(x))
     return df
 
 def clean_rest(df):
     df.venue_country=df.venue_country.isna()
     df.name_length=df.name_length==0
-    # df=pd.get_dummies(df,columns = ['payout_type','listed'])
-    #     df['payout_type_'] = df['payout_type'] == ''
-    #     df['payout_type_ACH'] = df['payout_type'] == 'ACH'
-    #     df['payout_type_CHECK'] = df['payout_type'] == 'CHECK'
-
-    #     df['listed_n'] = df['listed'] == 'n'
-    #     df['listed_y'] = df['listed'] == 'y'
-    # For test
-    # if 'gts' not in df.keys():
-    #     df['gts'] = 431
-
-    # if 'num_payouts' not in df.keys():
-    #     df['num_payouts'] = 0
-
-    # if 'num_order' not in df.keys():
-    #     df['num_order'] = 0
-
+    #taking only necessary columns
     df = df[[
         'body_length', 'channels', 'country', 'delivery_method',
         'email_domain', 'fb_published', 'has_analytics', 'has_header',
@@ -55,16 +42,18 @@ def clean_rest(df):
         'venue_address', 'venue_country','quantity_total',
         'availability', 'cost']]
 
-
+    #Converting Booleans to int
     df=df.fillna(0)*1
 
     return df
 
 def isexist(df, col):
+    #turning boolean depending on the input exists or not
     df[col]=df[col].apply(lambda x: len(x))==0
     return df
 
 def country_classify(df, col='country'):
+    #Rule fit: Turning Boolean depending on the contry priviously had many Fraud
     country_filter=['JM', 'BG', 'ID', 'NG', 'PK', 'VN', 'GH', 'TR', 'SI', 'RU', 'A1', 'CH',
        'CI', 'CM', 'PS', 'JE', 'CN', 'PH', 'CZ', 'DK', 'DZ', 'NA', 'MY', 'MA',
        'KH', 'CO', 'IL']
@@ -73,6 +62,7 @@ def country_classify(df, col='country'):
     return df
 
 def email_classify(df, col='email_domain'):
+    #Rule fit: Turning Boolean depending on the e-mail domain priviously had many Fraud
     email_filter=['outlook.com', 'mail.com', 'ymail.com', 'techie.com', 'inbox.com',
        'gmx.com', 'hotmail.fr', 'yahoo.fr', 'rocketmail.com',
        'mohmal.com', 'noiphuongxa.com', 'live.FR', 'nbuux.com',
@@ -110,13 +100,14 @@ def email_classify(df, col='email_domain'):
     return df
 
 def create_target(df):
+    #Turning target into boolean
     df['fraud'] = df['acct_type'].map({'fraudster_event': 1,
                                    'premium': 0,
                                    'spammer_warn': 0,
                                    'fraudster': 1,
                                    'spammer_limited': 0,
                                    'spammer_noinvite': 0,
-                                   'locked': 0,  #changed to 0 from 1
+                                   'locked': 0,  
                                    'tos_lock': 0,
                                    'tos_warn': 0,
                                    'fraudster_att': 1,
@@ -125,6 +116,7 @@ def create_target(df):
     return df
 
 def pre_process_data(df):
+    # running all the functions to convert data into machine readable form
     df=ticket_types(df)
     df=prev_pay_count(df)
     df=email_classify(df)
