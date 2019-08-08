@@ -1,30 +1,22 @@
-# Fraud Detection Case Study
+Detecting event invitation fraud using random forrest
 
-For the next two days we will work with the entire end to end pipeline of data science through a case study.  We have touched on aspects of this throughout the course but have not yet put all the pieces together.
+Link to final product: http://fraud-detection-galvanize.s3-website-us-east-1.amazonaws.com/
+Motivation
+		Of the numerous digital threats to companies, one of the most difficult threat to diagnose and eradicate is fraud. Fraudulent activity is a high-cost threat that can compromise the integrity of any digital firm who seeks to build credibility while maximizing profit. The company being examined in this project is an online promoter of events such as concerts, parties, and shows. The objective is to detect fraud while minimizing classifying legitimate events as fraud.
 
-Topics included in this case study include:
-* Classification modeling.
-* Programming Practice: Handing off models. 
-* Teamwork.
-* Web applications.
-* Website hosting with AWS
-* Deploying a DS application.
-* Data visualization.
-* Results presentation.
 
-#### Rough timeline 
+Business Challenges
+		Fraud accounts for less than 3% of all transactions making detection challenging. Over-predicting fraud would lead to excessive expenses due to the quantity of cases the firm would need to manually research. Allowing fraud into the system leads to a lack of trust and credibility. The team   costs due to 
 
-* Day 1: Project scoping, Team direction, Model building
-* Day 2: Web app and deployment
+Pipeline and Feature Engineering
+	•	Focused on the fact if the column is filled or not. (Boolean notation)
+	•	Focused on quantity. (Number of tickets sold, total quantity they are selling and payouts made previously)
+	•	Dropped columns to keep each column independent properties. 
+	•	Used the facts which country code and e-mail domain are used by fraud. 
+Model Selection and Performance
 
-#### Deliverables
 
-We will want two deliverables from you for this project:
+Real Time Fraud Detection Dashboard
+		Designed to asses quantities and cost of fraud. Additionally, the dashboard contains features which allow the end users to reassign the thresholds used to generate fraud alerts to internal teams. This will allow the firm to maximize the quality of the service while minimizing costs.
 
-* A dashboard for investigators to use which helps them identify new events that are worthy of investigation for fraud.  This will pull in new data regularly, and update a useful display for the investigation team.  How you wish to lay this out is up to you.
-* A ten-minute presentation on your process and results. 
-
-#### Notes
-
-* [Overview](overview.md): gives a detailed overview of the project.  Included are *suggestions* for how you can organize your team, though this is not binding, and you are free to deviate.
-* [Building your model](model_notes.md): notes on how to get started with the dataset and how to save your model once you've trained it.
+http://fraud-detection-galvanize.s3-website-us-east-1.amazonaws.com/
