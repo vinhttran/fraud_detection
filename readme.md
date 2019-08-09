@@ -1,6 +1,6 @@
-<b>Detecting event invitation fraud using random forest</b>
+# Detecting event invitation fraud using random forest
 
-Link to final product: http://fraud-detection-galvanize.s3-website-us-east-1.amazonaws.com/
+#### Link to final product: http://fraud-detection-galvanize.s3-website-us-east-1.amazonaws.com/
 
 <b>Motivation</b>
 		Of the numerous digital threats to companies, one of the most difficult threat to diagnose and eradicate is fraud. Fraudulent activity is a high-cost threat that can compromise the integrity of any digital firm who seeks to build credibility while maximizing profit. The company being examined in this project is an online promoter of events such as concerts, parties, and shows. The objective is to detect fraud while minimizing classifying legitimate events as fraud.
